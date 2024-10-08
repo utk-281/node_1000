@@ -101,3 +101,8 @@ async function greet() {
 console.log("end");
 
 greet();
+
+// https://github.com/utk-281/node_1000
+
+//! REPL ==> read, eval, print, loop ==> it is an interactive shell or CLI(command line interface)
+// to enter into the REPL type "node".
