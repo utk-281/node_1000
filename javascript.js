@@ -106,3 +106,5 @@ greet();
 
 //! REPL ==> read, eval, print, loop ==> it is an interactive shell or CLI(command line interface)
 // to enter into the REPL type "node".
+
+console.log("console.log(`hi`)");
