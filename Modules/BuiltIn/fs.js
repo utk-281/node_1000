@@ -1,4 +1,7 @@
+/*
+
 // ! fs ==> it stands for file system
+
 
 //to interact with os and perform CRUD on files and folders/directory
 
@@ -23,12 +26,12 @@
 //! 2) =========================write file ========================
 // method name ==> writeFileSync()
 // syntax ==> fs.writeFileSync("path/filename", "data")
-/*
+
 console.log("start");
 console.log("middle");
 fs.writeFileSync("./index.txt", "this is a txt file and data is inserted through fs module");
 console.log("end");
-*/
+
 
 // fs.writeFileSync("../app.js", "let a = 10");
 
@@ -73,7 +76,7 @@ console.log("middle");
 fs.writeFileSync("./home.js", readFile);
 console.log("file created");
 console.log("end");
-*/
+
 
 //! CRUD of folders ==========================
 
@@ -339,4 +342,45 @@ let deleteFile = async () => {
   await fs.rmdir("./backend", { recursive: true });
 };
 
-// deleteFile();
+// delete
+  */
+
+//!========================== buffer and streams ==============================
+
+let fs = require("fs");
+// console.log(fs);
+
+//? buffer ==> it is an array which is fixed in size and can not be changed. and is used to store data on a temporary basis.
+
+//? streaming ==> copying the contents from source to destination in continuous manner.
+// in nodeJS we have four different types of streaming
+
+//! 1) readable stream  ==> it is used to read the data in chunks
+// method name ==> createReadStream()
+// syntax ==> fs.createReadStream("path", "encoding")
+
+// let data = fs.createReadStream("./fs.js", "utf-8");
+
+// //! to cath an event we use "on()", inside on() we have to specify event name which is "data" and a callback function which will display all the contents of the file in chunks
+// data.on("data", (chunks) => {
+//   console.log(chunks);
+// });
+
+//! 2) writable stream ==> it is used to write the data in chunks
+// method name ==> createWriteStream()
+
+// let writeFile = fs.createWriteStream("./data.txt");
+// // console.log(writeFile);
+// writeFile.write("new data", () => {
+//   console.log("file created");
+// });
+
+//! 3) duplex stream ==> in duplex, we can perform both the operations at the same time
+// copy the contents of fs.js to new file fs1.js
+// pipe() ==> it is used to connect the source and destination
+// let readFile = fs.createReadStream("./fs.js");
+// let writeFile = fs.createWriteStream("./fs1.js");
+// readFile.pipe(writeFile);
+// console.log("new file created");
+
+//! 4) transform stream ==> it is similar to duplex, but data can be modified before it is written to the destination
