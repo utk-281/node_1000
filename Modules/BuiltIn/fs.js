@@ -10,22 +10,22 @@
 // let fs = require("fs");
 // console.log(fs);
 
-//! synchronous way or blocking way
-//!1) =========================read file sync=================
-// method name == readFileSync()
-// syntax == fs.readFileSync("path", "encoding" )
-// console.log("hello");
-// console.log("middle");
-// let data = fs.readFileSync("./data.txt");
-// console.log(data.toString());
-// console.log("end");
+! synchronous way or blocking way
+!1) =========================read file sync=================
+method name == readFileSync()
+syntax == fs.readFileSync("path", "encoding" )
+console.log("hello");
+console.log("middle");
+let data = fs.readFileSync("./data.txt");
+console.log(data.toString());
+console.log("end");
 
-// let data = fs.readFileSync("./data.txt", "utf-8");
-// console.log(data);
+let data = fs.readFileSync("./data.txt", "utf-8");
+console.log(data);
 
 //! 2) =========================write file ========================
-// method name ==> writeFileSync()
-// syntax ==> fs.writeFileSync("path/filename", "data")
+method name ==> writeFileSync()
+syntax ==> fs.writeFileSync("path/filename", "data")
 
 console.log("start");
 console.log("middle");
@@ -378,9 +378,9 @@ let fs = require("fs");
 //! 3) duplex stream ==> in duplex, we can perform both the operations at the same time
 // copy the contents of fs.js to new file fs1.js
 // pipe() ==> it is used to connect the source and destination
-// let readFile = fs.createReadStream("./fs.js");
-// let writeFile = fs.createWriteStream("./fs1.js");
-// readFile.pipe(writeFile);
-// console.log("new file created");
+let readFile = fs.createReadStream("./fs.js");
+let writeFile = fs.createWriteStream("./fs1.js");
+readFile.pipe(writeFile);
+console.log("new file created");
 
 //! 4) transform stream ==> it is similar to duplex, but data can be modified before it is written to the destination
