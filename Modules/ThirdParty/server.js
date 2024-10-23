@@ -26,19 +26,33 @@ let connectDB = async () => {
   let database = client.db("nodeDB"); // creating a database with db()
   console.log("database created");
 
-  let collection = await database.createCollection("myInfo"); // creating a collection with createCollection()
-  console.log("collection created");
+  // let collection = await database.createCollection("myInfo"); // creating a collection with createCollection()
+  // console.log("collection created");
+
+  //! ====================== checking if collection exists or not =======================
+  let myCollection;
+
+  let collections = await database.listCollections({ name: "myInfo" }).toArray();
+
+  // console.log(collections);
+
+  if (collections.length > 0) {
+    myCollection = database.collection("myInfo");
+  } else {
+    myCollection = await database.createCollection("myInfo"); // creating a collection with createCollection()
+    console.log("collection created");
+  }
 
   // CRUD operations
 
   // ! 1) create/insert ==>  insertOne({}), insertMany([{},{},....])
-  // collection.insertOne({  name:"abc"});
-  // collection.insertMany([
-  //   { name: "san", age: 23 },
-  //   { email: "email@com", address: "pune" },
-  //   { phoneNumber: 1234567890, pinCode: 123456 },
-  // ]);
-  // console.log("documents created");
+  myCollection.insertOne({ name: "abc" });
+  myCollection.insertMany([
+    { name: "san", age: 23 },
+    { email: "email@com", address: "pune" },
+    { phoneNumber: 1234567890, pinCode: 123456 },
+  ]);
+  console.log("documents created");
 
   //! 2) read/fetch ==> findOne({})/find({})
   // let data = await collection.findOne(); // top most document

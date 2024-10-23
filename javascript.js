@@ -91,8 +91,8 @@ async function callAPI() {
 }
 // await will suspend the function execution on temporary basis from call stack
 
-callAPI();
-
+// callAPI();
+//
 async function greet() {
   console.log("inside greet");
   return "hello";
@@ -100,7 +100,7 @@ async function greet() {
 
 console.log("end");
 
-greet();
+// greet();
 
 // https://github.com/utk-281/node_1000
 
@@ -108,3 +108,12 @@ greet();
 // to enter into the REPL type "node".
 
 console.log("console.log(`hi`)");
+
+const id = Symbol("id");
+
+const user = {
+  name: "UT",
+  [id]: 12345, // Using Symbol as a unique key for a property
+};
+
+console.log(Object.keys(user));
