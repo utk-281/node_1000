@@ -15,8 +15,10 @@
 //! ===== only one .json file in the root directory ==========
 
 //! to install any third party module
-//? npm i/install module-name
+//? npm i/install module-name1 module-name2 .....
 
 // local module ==> require("module-path")
 // built in  module ==> require("module-name")
 // third module ==> require("module-name")
+
+//! it supports MVC architecture ==> M = model, V = view, C = controller
