@@ -18,7 +18,7 @@ const app = express();
 //! connectDB()
 
 //! middleware
-app.use(express.urlencoded({ extended: true })); // built-in middleware
+app.use(express.urlencoded({ extended: true })); // built-in middleware ==> this will parse the incoming html form data present inside the req.body.
 
 //! ================== routing part
 //! home page
