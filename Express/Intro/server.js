@@ -1,4 +1,7 @@
 //! importing the module
+
+// ? to install third party module ==> npm i/install module-name1 module-name2 ......
+
 const express = require("express");
 // console.log(express);
 
