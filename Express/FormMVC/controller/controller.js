@@ -13,6 +13,7 @@ exports.formPage = (req, res) => {
   fs.createReadStream(__dirname + "/index.html").pipe(res);
 };
 
+//! logic for submitting form
 exports.handleSubmit = async (req, res) => {
   let myCollection = await connectDB();
   console.log(req.body);
@@ -20,4 +21,14 @@ exports.handleSubmit = async (req, res) => {
   let response = await myCollection.insertOne(req.body);
   console.log(response);
   res.send("data inserted");
+};
+
+exports.getData = async (req, res) => {
+  let myCollection = await connectDB();
+
+  let result = await myCollection.find().toArray();
+
+  console.log(result);
+
+  res.send(result);
 };
