@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
-const { MONGODB_URL } = require(".");
-
+const { MONGODB } = require(".");
 exports.connectDB = async () => {
-  await mongoose.connect(MONGODB_URL);
-  console.log("database connected");
+  await mongoose.connect(MONGODB);
+  console.log(`MongoDB connected`);
 };
