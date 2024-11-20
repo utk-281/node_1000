@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const { homePage, formPage, handleSubmit, getData } = require("../controller/controller");
+const { deleteBlog } = require("../../BlogApp/controllers/users.controller");
 
 const router = Router();
 
