@@ -1,102 +1,108 @@
-const BLOG_SCHEMA = require("../models/blogs.model");
+const USER_SCHEMA = require("../models/users.model");
 
-exports.addBlog = async (req, res) => {
+exports.addUser = async (req, res) => {
   try {
-    console.log(req.body);
-    const { title, description } = req.body;
+    let { username, email, password } = req.body;
 
-    let newBlog = await BLOG_SCHEMA.create({ title, description });
-
-    res.status(201).json({ success: true, message: "data added successfully", newBlog });
-  } catch (error) {
-    console.log("error while adding a blog");
-    res.status(500).json({ success: false, message: error });
-  }
-};
-
-exports.fetchAllBlogs = async (req, res) => {
-  try {
-    let allBlogs = await BLOG_SCHEMA.find();
-
-    if (allBlogs.length === 0) return res.json({ message: "no data present" });
-
-    res.status(200).json({
-      success: true,
-      message: "all blogs fetched",
-      count: allBlogs.length,
-      data: allBlogs,
-    });
-  } catch (error) {
-    console.log("error while fetching all blogs");
-    res.status(500).json({ success: false, message: error });
-  }
-};
-
-exports.fetchOneBlog = async (req, res) => {
-  try {
-    console.log(req.params);
-
-    //   let id = req.params.id;
-    let { id } = req.params;
-    console.log(id);
-
-    let blog = await BLOG_SCHEMA.findOne({ _id: id });
-
-    if (!blog) return res.json({ message: "no such blog found" });
-
-    res.status(200).json({ success: true, message: "data fetched", data: blog });
-  } catch (error) {
-    console.log("erro while fetching one blog");
-    res.status(500).json({ success: false, message: error });
-  }
-};
-
-exports.deleteBlog = async (req, res) => {
-  try {
-    let { id } = req.params;
-
-    let blog = await BLOG_SCHEMA.findOne({ _id: id });
-
-    console.log(blog);
-
-    if (!blog) {
-      return res.status(400).json({ success: "false", message: "no blog found" });
+    let existingUser = await USER_SCHEMA.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ success: false, message: "user email already registered" });
     }
 
-    let deletedBlog = await BLOG_SCHEMA.deleteOne({ _id: id });
-    console.log(deletedBlog);
+    let newUser = await USER_SCHEMA.create({ username, email, password });
 
-    res.status(200).json({ success: true, message: "blog deleted" });
+    res.status(201).json({ success: true, message: "user data added", newUser });
   } catch (error) {
-    console.log("error while deleting a blog");
+    console.log("error while creating a user");
+    res.status(500).json({ success: true, message: error });
+  }
+};
+
+exports.fetchAllUsers = async (req, res) => {
+  try {
+    let users = await USER_SCHEMA.find();
+
+    if (users.length === 0) return res.status(200).json({ message: "no users present" });
+
+    res
+      .status(200)
+      .json({ success: true, message: "users fetched successfully", count: users.length, users });
+  } catch (error) {
+    console.log("error while fetching all the users");
     res.status(500).json({ success: false, message: error });
   }
 };
 
-exports.updateBlog = async (req, res) => {
+exports.fetchOneUser = async (req, res) => {
   try {
     let { id } = req.params;
 
-    let findBlog = await BLOG_SCHEMA.findOne({ _id: id });
-    if (!findBlog) return res.status(400).json({ success: false, message: "no such blog found" });
+    let findUser = await USER_SCHEMA.findById(id);
 
-    await BLOG_SCHEMA.updateOne(
-      { _id: id },
-      {
-        $set: {
-          title: req.body.title, //? updating the values from new request.
-          description: req.body.description,
-        },
-      }
-    );
+    if (!findUser) return res.status(200).json({ message: "no user found" });
 
-    res.status(200).json({ success: true, message: "blog updated" });
+    res.status(200).json({ success: true, message: "user fetched successfully", findUser });
   } catch (error) {
-    console.log(":error occured while updating");
+    console.log("error while fetching single user");
     res.status(500).json({ success: false, message: error });
   }
 };
 
-/* https://www.amazon.in/Campus-OXYFIT-Walking-Shoes-India/dp/B09RPPR4S2/ref=sr_1_1?_encoding=UTF8&content-id=amzn1.sym.5e9610aa-a283-4f27-8121-ae5c038daee4&dib=eyJ2IjoiMSJ9.KzmI9_Z1sIq6E-baKimkW-fbkgUM2B9Gb_he0WTzVfsqtVXfsR6iu-mW6qW4u399oUC3cpub6VYlCz-RcQra_HyKMgED-gZCCJzCZEGGJlvOIXTGlgiUciB0LaA9JxoCpICgkfwyxCv-FXhvn71V4wuqkZGRGTrlmK9UYObHZidx9aIVxt8Hr9Y6FBhUbEU6MQfP-HKOjeaTeFTNKhxPehZ90f1xhdHzRg_-TepSTDi4eE842vt4Jv8tqVFItJk6nwMAnz0GiJiQLKoj9jM6KqV9wGoTnTxKV3rYXRT40is.nTkpDtLLGRKmy1kncuu9yI-BQkQNEPdFG1i48yLt82w&dib_tag=se&pd_rd_r=523c7d39-5c4c-4d81-8ed1-d35f9eb4c0be&pd_rd_w=N3Aar&pd_rd_wg=eYIhh&pf_rd_p=5e9610aa-a283-4f27-8121-ae5c038daee4&pf_rd_r=1TCCHDYFQKJ7ZYG756XJ&qid=1731995772&refinements=p_72%3A1318477031%2Cp_36%3A60000-%2Cp_n_feature_nineteen_browse-bin%3A11301363031&rnid=11301362031&s=apparel&sr=1-1 */
+exports.updateUser = async (req, res) => {
+  try {
+    let { id } = req.params;
 
-/* https://www.amazon.in/Puma-Dazzler-Black-Puma-Silver-Sneaker/dp/B09RG9WPTC/ref=sr_1_2?_encoding=UTF8&content-id=amzn1.sym.5e9610aa-a283-4f27-8121-ae5c038daee4&dib=eyJ2IjoiMSJ9.KzmI9_Z1sIq6E-baKimkW-fbkgUM2B9Gb_he0WTzVfsqtVXfsR6iu-mW6qW4u399oUC3cpub6VYlCz-RcQra_HyKMgED-gZCCJzCZEGGJlvOIXTGlgiUciB0LaA9JxoCpICgkfwyxCv-FXhvn71V4wuqkZGRGTrlmK9UYObHZidx9aIVxt8Hr9Y6FBhUbEU6MQfP-HKOjeaTeFTNKhxPehZ90f1xhdHzRg_-TepSTDi4eE842vt4Jv8tqVFItJk6nwMAnz0GiJiQLKoj9jM6KqV9wGoTnTxKV3rYXRT40is.nTkpDtLLGRKmy1kncuu9yI-BQkQNEPdFG1i48yLt82w&dib_tag=se&pd_rd_r=523c7d39-5c4c-4d81-8ed1-d35f9eb4c0be&pd_rd_w=N3Aar&pd_rd_wg=eYIhh&pf_rd_p=5e9610aa-a283-4f27-8121-ae5c038daee4&pf_rd_r=1TCCHDYFQKJ7ZYG756XJ&qid=1731995772&refinements=p_72%3A1318477031%2Cp_36%3A60000-%2Cp_n_feature_nineteen_browse-bin%3A11301363031&rnid=11301362031&s=apparel&sr=1-2 */
+    let findUser = await USER_SCHEMA.findById(id);
+
+    if (!findUser) return res.status(200).json({ message: "no user found" });
+
+    //! 1)
+
+    // await USER_SCHEMA.updateOne(
+    //   { _id: id },
+    //   { $set: { username: req.body.username, password: req.body.password, email: req.body.email } }
+    // );
+
+    //! 2)
+    findUser.username = req.body.username || findUser.username;
+    findUser.email = req.body.email || findUser.email;
+    findUser.password = req.body.password || findUser.password;
+
+    await findUser.save();
+
+    res.status(200).json({ success: true, message: "user updated successfully" });
+  } catch (error) {
+    console.log("error while updating a user");
+    res.status(500).json({ success: false, message: error });
+  }
+};
+
+exports.deleteUser = async (req, res) => {
+  try {
+    let { id } = req.params;
+
+    let user = await USER_SCHEMA.findById(id);
+
+    if (!user) return res.status(200).json({ message: "no user found" });
+
+    let deletedUser = await USER_SCHEMA.findByIdAndDelete(id);
+    res.status(200).json({ success: true, message: "user deleted", deletedUser });
+  } catch (error) {
+    console.log("error while deleting a user");
+    res.status(500).json({ success: false, message: error });
+  }
+};
+
+exports.login = async (req, res) => {
+  let { email, password } = req.body;
+  let findUser = await USER_SCHEMA.findOne({ email });
+
+  if (!findUser) return res.status(401).json({ message: "please enter correct email" });
+
+  let isMatched = await findUser.verifyPassword(password);
+  // console.log(isMatched);
+
+  if (!isMatched) return res.status(401).json({ message: "wrong password" });
+
+  res.status(200).json({ success: true, message: "user logged in" });
+};

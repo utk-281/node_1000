@@ -5,7 +5,7 @@ const {
   fetchOneBlog,
   deleteBlog,
   updateBlog,
-} = require("../controllers/users.controller");
+} = require("../controllers/blogs.controller");
 const router = Router();
 
 router.post("/add", addBlog);
