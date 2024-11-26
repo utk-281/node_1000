@@ -1,4 +1,5 @@
 const USER_SCHEMA = require("../models/users.model");
+const { generateToken } = require("../utils/generateToken");
 
 exports.addUser = async (req, res) => {
   try {
@@ -104,5 +105,13 @@ exports.login = async (req, res) => {
 
   if (!isMatched) return res.status(401).json({ message: "wrong password" });
 
-  res.status(200).json({ success: true, message: "user logged in" });
+  let token = generateToken(findUser._id);
+  // console.log(token);
+
+  res.cookie("myCookie", token, {
+    maxAge: 1 * 60 * 60 * 1000, // expiry==> 1hr in ms
+    httpOnly: true, // it cannot be modified by browser
+  });
+
+  res.status(200).json({ success: true, message: "user logged in", token: token });
 };
