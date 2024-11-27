@@ -6,9 +6,12 @@ const {
   deleteBlog,
   updateBlog,
 } = require("../controllers/blogs.controller");
+const { authenticate } = require("../middlewares/auth");
+
 const router = Router();
 
-router.post("/add", addBlog);
+router.post("/add", authenticate, addBlog);
+//! example of router level middleware
 
 router.get("/all", fetchAllBlogs);
 

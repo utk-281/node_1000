@@ -115,3 +115,11 @@ exports.login = async (req, res) => {
 
   res.status(200).json({ success: true, message: "user logged in", token: token });
 };
+
+exports.logout = async (req, res) => {
+  res.clearCookie("myCookie", "", {
+    maxAge: 0,
+  });
+
+  res.status(200).json({ success: true, message: "user logged out" });
+};
