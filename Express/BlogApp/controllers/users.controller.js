@@ -1,3 +1,4 @@
+const { JWT_SECRET } = require("../config");
 const USER_SCHEMA = require("../models/users.model");
 const { generateToken } = require("../utils/generateToken");
 
@@ -109,14 +110,14 @@ exports.login = async (req, res) => {
   // console.log(token);
 
   res.cookie("myCookie", token, {
-    maxAge: 1 * 60 * 60 * 1000, // expiry==> 1hr in ms
-    httpOnly: true, // it cannot be modified by browser
+    maxAge: 1 * 60 * 60 * 1000, // 1hr in milliseconds
+    httpOnly: true, // cookies cannot be accessed by browser
   });
 
-  res.status(200).json({ success: true, message: "user logged in", token: token });
+  res.status(200).json({ success: true, message: "user logged in", token });
 };
 
-exports.logout = async (req, res) => {
+exports.logout = (req, res) => {
   res.clearCookie("myCookie", "", {
     maxAge: 0,
   });

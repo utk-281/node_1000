@@ -1,33 +1,29 @@
-const jwt = require("jsonwebtoken");
+let jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../config");
-const USER_SCHEMA = require("../models/users.model");
+let USER_SCHEMA = require("../models/users.model");
 
-exports.authenticate = async (req, res, next) => {
-  //   console.log(req);
-  //   console.log(req.cookies.myCookie);
+exports.verifyUser = async (req, res, next) => {
+  //   console.log(req.cookies);
+  /*
+  "cookie" is the name of the cookie 
+  {
+  myCookie: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDZhODEzN2UyNjc0NjhmZTIxZWViMyIsImlhdCI6MTczMjc3MDgwOCwiZXhwIjoxNzMzNjM0ODA4fQ.2EUXG-a0ikcnA4Hd7ON9_iC1v-ygkqRjb0-3roAa60I'
+} 
+   */
 
-  let token = req?.cookies?.myCookie;
+  let token = req.cookies.myCookie;
+  console.log(token);
 
-  if (!token) {
-    res.status(400).json({ message: "please log in to access this resource" });
-  }
+  if (!token) return res.status(401).json({ message: "please log in to access this" });
 
-  //   next();
+  let decodeToken = jwt.verify(token, JWT_SECRET);
+  //   console.log(decodeToken);
+  /*  decodeToken
+  { id: '6746a8137e267468fe21eeb3', iat: 1732772325, exp: 1733636325 } 
+   */
 
-  let decoded = jwt.verify(token, JWT_SECRET);
-  // decoding the token extracted from req using verify()
-  console.log(decoded);
-  //   { id: '6746a8137e267468fe21eeb3', iat: 1732685176, exp: 1732771576 }
-
-  let user = await USER_SCHEMA.findById(decoded.id);
-  console.log(user);
-  req.myUser = user; // adding a myUser property to req object and it's value is user data
+  let user = await USER_SCHEMA.findOne({ _id: decodeToken.id });
+  //   console.log(user);
+  req.myUser = user;
   next();
 };
-
-// types of middlewares
-//! 1) user-defined
-//! 2) application
-//! 3) third party
-//! 4) error
-//! 5) router

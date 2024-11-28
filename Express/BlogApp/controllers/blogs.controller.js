@@ -2,10 +2,14 @@ const BLOG_SCHEMA = require("../models/blogs.model");
 
 exports.addBlog = async (req, res) => {
   try {
-    console.log(req.body);
+    // console.log(req.body);
     const { title, description } = req.body;
 
-    let newBlog = await BLOG_SCHEMA.create({ title, description });
+    let newBlog = await BLOG_SCHEMA.create({
+      title,
+      description,
+      createdBy: req.myUser._id,
+    });
 
     res.status(201).json({ success: true, message: "data added successfully", newBlog });
   } catch (error) {
@@ -92,7 +96,7 @@ exports.updateBlog = async (req, res) => {
 
     res.status(200).json({ success: true, message: "blog updated" });
   } catch (error) {
-    console.log(":error occured while updating");
+    console.log(":error occurred while updating");
     res.status(500).json({ success: false, message: error });
   }
 };
