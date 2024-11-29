@@ -80,8 +80,11 @@ exports.updateUser = async (req, res) => {
 };
 
 exports.deleteUser = async (req, res) => {
+  console.log(req.myUser);
   try {
     let { id } = req.params;
+    // let userID = req.myUser._id;
+    // console.log(userID);
 
     let user = await USER_SCHEMA.findById(id);
 

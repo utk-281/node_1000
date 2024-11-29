@@ -359,12 +359,12 @@ let fs = require("fs");
 // method name ==> createReadStream()
 // syntax ==> fs.createReadStream("path", "encoding")
 
-// let data = fs.createReadStream("./fs.js", "utf-8");
+let data = fs.createReadStream("./fs.js", "utf-8");
 
-// //! to cath an event we use "on()", inside on() we have to specify event name which is "data" and a callback function which will display all the contents of the file in chunks
-// data.on("data", (chunks) => {
-//   console.log(chunks);
-// });
+//! to cath an event we use "on()", inside on() we have to specify event name which is "data" and a callback function which will display all the contents of the file in chunks
+data.on("data", (chunks) => {
+  console.log(chunks);
+});
 
 //! 2) writable stream ==> it is used to write the data in chunks
 // method name ==> createWriteStream()
