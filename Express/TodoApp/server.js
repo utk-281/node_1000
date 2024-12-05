@@ -4,6 +4,7 @@ const { connectDB } = require("./config/database");
 const cookieParser = require("cookie-parser");
 
 const userRoutes = require("./routes/users.routes");
+const todoRoutes = require("./routes/todo.routes");
 
 connectDB();
 
@@ -16,6 +17,7 @@ app.use(cookieParser());
 
 // routes middleware
 app.use("/users/v1", userRoutes); // "/users/v1" ==> static path / api versioning
+app.use("/todo/v1", todoRoutes);
 
 app.listen(PORT, (err) => {
   if (err) console.log(err);

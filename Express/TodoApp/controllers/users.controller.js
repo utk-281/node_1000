@@ -15,25 +15,6 @@ exports.registerUser = asyncHandler(async (req, res) => {
   res.status(201).json({ success: true, message: "user registered", newUser });
 });
 
-//! fetchAll, fetchOne and delete
-
-exports.fetchAll = asyncHandler(async (req, res) => {
-  let users = await USER_SCHEMA.find(); // array
-
-  if (users.length === 0) return res.status(200).json({ message: "no users found" });
-
-  res.status(200).json({
-    success: true,
-    message: "all users fetched successfully",
-    count: users.length,
-    users,
-  });
-});
-
-// exports.fetchOne = asyncHandler(async (req, res) => {
-//   let user = await USER_SCHEMA.findOOne({ _id: req.params.id });
-// });
-
 exports.login = asyncHandler(async (req, res) => {
   let { email, password } = req.body;
 
@@ -56,4 +37,12 @@ exports.login = asyncHandler(async (req, res) => {
     message: "user logged in",
     token: token,
   });
+});
+
+exports.logout = asyncHandler(async (req, res) => {
+  res.clearCookie("myCookie", "", {
+    maxAge: Date.now,
+  });
+
+  res.status(200).json({ success: true, message: "user logged out" });
 });
