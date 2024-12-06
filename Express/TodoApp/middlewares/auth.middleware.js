@@ -8,7 +8,7 @@ exports.authenticate = async (req, res, next) => {
 
   //! checking if token is present or valid
   if (!token) {
-    res.status(401).json({ message: "please log in or invalid token" });
+    return res.status(401).json({ message: "please log in or invalid token" });
   }
 
   //! then decoding the token to get the user _id

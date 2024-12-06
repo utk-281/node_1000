@@ -18,8 +18,21 @@ exports.addTodo = asyncHandler(async (req, res) => {
   res.status(201).json({ success: true, message: "todo added successfully", newTodo });
 });
 
-exports.fetchAllTodo = asyncHandler(async (req, res) => {
-  let allTodo = await TODO_SCHEMA.find({ createdBy: req.myUser._id });
+exports.fetchAll = asyncHandler(async (req, res) => {
+  let todo = await TODO_SCHEMA.find({ createdBy: req.myUser._id });
 
-  res.status(200).json({ success: true, count: allTodo.length, message: "todo fetched", allTodo });
+  if (todo.length === 0) return res.status(200).json({ message: "no todo present" });
+
+  res.status(200).json({ success: true, message: "todo fetched", todo });
+});
+
+exports.fetchOne = asyncHandler(async (req, res) => {
+  let { id } = req.params;
+
+  let findTodo = await TODO_SCHEMA.findOne({ _id: id, createdBy: req.myUser._id });
+  // id is extracted from params and also we are verifying wether the user that is requesting the todo is created by the user himself
+
+  if (!findTodo) return res.status(200).json({ message: "no todo found" });
+
+  res.status(200).json({ success: true, message: "todo fetched", findTodo });
 });
