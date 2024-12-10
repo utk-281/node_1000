@@ -36,3 +36,43 @@ exports.fetchOne = asyncHandler(async (req, res) => {
 
   res.status(200).json({ success: true, message: "todo fetched", findTodo });
 });
+
+exports.deleteTodo = asyncHandler(async (req, res) => {
+  let { id } = req.params;
+
+  let findTodo = await TODO_SCHEMA.findOne({ _id: id, createdBy: req.myUser._id });
+
+  if (!findTodo) return res.status(400).json({ message: "no todo found" });
+
+  let deletedTodo = await TODO_SCHEMA.deleteOne({ _id: findTodo._id });
+
+  res.status(200).json({ success: true, message: "todo deleted", deletedTodo });
+});
+
+exports.updateTodo = asyncHandler(async (req, res) => {
+  let { id } = req.params;
+
+  let findTodo = await TODO_SCHEMA.findOne({ _id: id, createdBy: req.myUser._id });
+
+  if (!findTodo) return res.status(404).json({ message: "no todo found" });
+
+  //! 1st way ==>
+  // await TODO_SCHEMA.updateOne(
+  //   { _id: findTodo._id },
+  //   {
+  //     $set: {
+  //       title: req.body.title,
+  //       description: req.body.description,
+  //       status: req.body.status,
+  //     },
+  //   }
+  // );
+
+  //! 2nd way
+  findTodo.title = req.body.title || findTodo.title; //! if user is not updating any field then, the already present value will be assigned
+  findTodo.description = req.body.description || findTodo.description;
+  findTodo.status = req.body.status || findTodo.status;
+  await findTodo.save(); // to save all the changes
+
+  res.status(200).json({ success: true, message: "todo updated" });
+});

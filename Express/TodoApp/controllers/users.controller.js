@@ -46,3 +46,25 @@ exports.logout = asyncHandler(async (req, res) => {
 
   res.status(200).json({ success: true, message: "user logged out" });
 });
+
+exports.updatePassword = asyncHandler(async (req, res) => {
+  // console.log(req.body);
+  let { oldPassword, newPassword, confirmPassword } = req.body;
+
+  if (oldPassword === newPassword)
+    return res.status(400).json({ message: "new and old password are same" });
+
+  let user = await USER_SCHEMA.findOne({ _id: req.myUser._id });
+
+  let isMatch = await user.verifyPassword(oldPassword);
+  // console.log("🚀 ~ exports.updatePassword=asyncHandler ~ isMatch:", isMatch);
+  if (!isMatch) return res.status(400).json({ message: "please enter correct old password" });
+
+  if (newPassword != confirmPassword)
+    return res.status(400).json({ message: "new and confirm password are not same" });
+
+  user.password = newPassword; //12356689
+  await user.save({ validateBeforeSave: true });
+
+  res.status(200).json({ success: true, message: "password updated" });
+});

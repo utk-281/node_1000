@@ -22,3 +22,12 @@ exports.authenticate = async (req, res, next) => {
   req.myUser = myUser;
   next();
 };
+
+exports.authorize = async (req, res, next) => {
+  console.log(req.myUser);
+
+  if (req.myUser.role !== "admin")
+    return res.status(401).json({ success: true, message: "not authorized" });
+
+  next();
+};
