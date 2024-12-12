@@ -26,19 +26,3 @@ app.listen(PORT, (err) => {
   if (err) console.log(err);
   console.log("server running at port:", PORT);
 });
-
-function f1(req, res, next) {
-  Promise.resolve(async (req, res) => {
-    const { name, email, password, role } = req.body;
-
-    let existingUser = await USER_SCHEMA.findOne({ email });
-    if (existingUser) {
-      return res.status(401).json({ message: "email already registered" });
-    }
-
-    let newUser = await USER_SCHEMA.create({ name, email, password, role });
-    res.status(201).json({ success: true, message: "user registered", newUser });
-  }).catch((err) => {
-    console.log(err);
-  });
-}

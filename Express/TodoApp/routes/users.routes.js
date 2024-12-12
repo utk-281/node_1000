@@ -7,10 +7,11 @@ const {
   updatePassword,
 } = require("../controllers/users.controller");
 const { authenticate } = require("../middlewares/auth.middleware");
+const upload = require("../middlewares/multer.middleware");
 
 const router = Router();
 
-router.post("/register", registerUser);
+router.post("/register", upload.single("profilePicture"), registerUser);
 router.post("/login", login);
 router.get("/logout", logout);
 
