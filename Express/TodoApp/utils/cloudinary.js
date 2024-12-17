@@ -24,4 +24,10 @@ exports.uploadOnCloudinary = asyncHandler(async (path) => {
   fs.unlinkSync(path);
 
   return response;
+  /* {
+    url: response.secure_url,
+    asset_id: response.asset_id,
+    public_id: response.public_id,
+    .....
+  } */
 });
