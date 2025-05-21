@@ -1,4 +1,5 @@
 //! fs ==> fs stands for file system. this module provide utilities for working with files and folders/directories
+
 // working means ==> CRUD (Create, read, update, delete)
 
 //! import the built-in module
@@ -185,37 +186,37 @@ function createStructure() {
 //~ 5) creating a folder/ directory
 // method name ==> mkdir()
 // syntax ==> mkdir("path", callback)
-fs.mkdir("./folder1", (err) => {
-  if (err) console.log(err);
-  console.log("folder created");
-});
+// fs.mkdir("./folder1", (err) => {
+//   if (err) console.log(err);
+//   console.log("folder created");
+// });
 
 //~ 6) removing a folder/ directory
 // method name ==> rmdir()
 // syntax ==> rmdir("path", callback)
-fs.rmdir("./folder1", (err) => {
-  if (err) console.log(err);
-  console.log("folder deleted");
-});
+// fs.rmdir("./folder1", (err) => {
+//   if (err) console.log(err);
+//   console.log("folder deleted");
+// });
 
 //~ 7) renaming a file/ directory
 // method name ==> rename()
 // syntax ==> rename("old path", "new path", callback)
-fs.rename("./folder1", "./folder2", (err) => {
-  if (err) console.log(err);
-  console.log("folder renamed");
-});
+// fs.rename("./folder1", "./folder2", (err) => {
+//   if (err) console.log(err);
+//   console.log("folder renamed");
+// });
 
 //~ 8) copying a file
 // method name ==> copyFile()
 // syntax ==> copyFile("path of the to be copied", "path of the new file", callback)
-fs.copyFile("./fs.js", "./fs_copy.js", (err) => {
-  if (err) console.log(err);
-  console.log("file copy completed");
-});
+// fs.copyFile("./fs.js", "./fs_copy.js", (err) => {
+//   if (err) console.log(err);
+//   console.log("file copy completed");
+// });
 
 //! ========= using fs asynchronously ==> then/catch =================
-let fsPromises = require("fs").promises;
+// let fsPromises = require("fs").promises;
 // let fsPromises = require("fs/promises");
 
 //~ 1) creating a file
@@ -247,15 +248,15 @@ async function createFile() {
 // method name ==> readFile()
 // syntax ==> readFile("path", "encoding").then().catch()
 
-let readContents = fsPromises.readFile("./demo.py", "utf-8");
-console.log(readContents);
-readContents
-  .then((data) => {
-    console.log(data);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+// let readContents = fsPromises.readFile("./demo.py", "utf-8");
+// console.log(readContents);
+// readContents
+//   .then((data) => {
+//     console.log(data);
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
 
 async function readFile() {
   try {
@@ -271,76 +272,157 @@ async function readFile() {
 // method name ==> appendFile()
 // syntax ==> appendFile("path", "new data").then().catch()
 
-let updateFile = fsPromises.appendFile("./demo.txt", "\n this is second line");
-updateFile
-  .then(() => {
-    console.log("file updated");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+// let updateFile = fsPromises.appendFile("./demo.txt", "\n this is second line");
+// updateFile
+//   .then(() => {
+//     console.log("file updated");
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
 
 //~ 4) deleting a file
 // method name ==> unlink()
 // syntax ==> unlink("path").then().catch()
 
-let deleteFile = fsPromises.unlink("./demo.txt");
-deleteFile
-  .then(() => {
-    console.log("file deleted");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+// let deleteFile = fsPromises.unlink("./demo.txt");
+// deleteFile
+//   .then(() => {
+//     console.log("file deleted");
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
 
 //~ 5) creating a folder
 // method name ==> mkdir()
 // syntax ==> mkdir("path").then().catch()
 
-let createFolder = fsPromises.mkdir("./folder1");
-createFolder
-  .then(() => {
-    console.log("folder created");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+// let createFolder = fsPromises.mkdir("./folder1");
+// createFolder
+//   .then(() => {
+//     console.log("folder created");
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
 
 //~ 6) deleting a folder
 // method name ==> rmdir()
 // syntax ==> rmdir("path").then().catch()
 
-let deleteFolder = fsPromises.rmdir("./folder1");
-deleteFolder
-  .then(() => {
-    console.log("folder deleted");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+// let deleteFolder = fsPromises.rmdir("./folder1");
+// deleteFolder
+//   .then(() => {
+//     console.log("folder deleted");
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
 
 //~ 7) renaming a folder/file
 // method name ==> rename()
 // syntax ==> rename("old path", "new path").then().catch()
 
-let renameFolder = fsPromises.rename("./folder1", "./folder2");
-renameFolder
-  .then(() => {
-    console.log("folder renamed");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+// let renameFolder = fsPromises.rename("./folder1", "./folder2");
+// renameFolder
+//   .then(() => {
+//     console.log("folder renamed");
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
 
 //~ 8) copying a file
 // method name ==> copyFile()
 // syntax ==> copyFile("path of the to be copied", "path of the new file").then().catch()
 
-let copyFile = fsPromises.copyFile("./fs.js", "./fs_copy.js");
-copyFile
-  .then(() => {
-    console.log("file copy completed");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+// let copyFile = fsPromises.copyFile("./fs.js", "./fs_copy.js");
+// copyFile
+//   .then(() => {
+//     console.log("file copy completed");
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
+
+//? sync execution, async (callbacks, then/catch and async await )
+
+//! buffer ==> buffer is an temporary array which is fixed in size and it holds binary data.
+//TODO ==>  and it is used to manipulate the data.
+
+//! streaming ==> streaming is a process of transferring data from source to destination in continuous chunks. it is also an async operation
+// in nodeJS we have 4 different types of streaming
+
+//~ 1) writable stream ==> we can perform writing operations in chunks
+
+//~ 2) readable stream ==> we can perform reading operations in chunks
+
+//~ 3) duplex stream ==> we can perform both readable and writable simultaneously (parallel operations) in chunks.
+
+//~ 4) transform stream ==> it is similar to duplex but data can be modified
+
+const fs = require("fs");
+
+//! 1) writable stream ==>
+// method name ==> createWriteStream()
+// console.log("Start");
+
+// let result = fs.createWriteStream("./demo.txt");
+// // console.log(result); WriteStream Object
+// result.write("let a =20", (err) => {
+//   if (err) console.log(err);
+//   console.log("file created in writable stream");
+// });
+
+// console.log("middle");
+// console.log("end");
+
+//! 2) readable stream ==>
+// method name ==> createReadStream()
+
+// console.log("Start");
+
+// let result = fs.createReadStream("./demo.txt", "utf-8");
+// // console.log(result); // ReadStream Object
+// result.on("data", (chunk) => {
+//   console.log(chunk);
+// });
+// console.log("middle");
+// console.log("end");
+
+// let result = fs.createReadStream("./fs.js", { highWaterMark: 10 });
+// result.on("data", (chunk) => {
+//   console.log(`chunk size is ${chunk.length} bytes ====== ${chunk}`);
+// });
+
+//! 3) duplex stream ==>
+// copy the contents of "fs.js" to a new file named "fs_copy.js"
+// let read = fs.createReadStream("./fs.js", "utf-8"); //? source
+// let write = fs.createWriteStream("./fs_copy.js"); //? destination
+// //? pipe() ==> it connects source to destination
+// //? source.pipe(destination)
+// read.pipe(write);
+
+// let { Duplex } = require("stream");
+
+// let newDuplex = new Duplex({
+//   write(chunk, encoding, callback) {
+//     console.log(chunk, encoding);
+//     callback();
+//   },
+//   read() {
+//     this.push("hello", "utf-8");
+//     this.push("world", "utf-8");
+//     this.push("!", "utf-8");
+//     this.push("!", "utf-8");
+//     this.push(null);
+//   },
+// });
+
+// newDuplex.pipe(process.stdout);
+
+// newDuplex.write("hello", "utf-8");
+// newDuplex.write("world", "utf-8");
+// newDuplex.write("!", "utf-8");
+// newDuplex.write("!", "utf-8");
