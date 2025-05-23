@@ -1,11 +1,11 @@
 // path it is an example of built-in modules
 
 //! global variables/ methods ==> these are the methods or variables that does not need to be imported
-//? examples(methods) ==> console, Promise, setTimeout(),
+//? examples(methods) ==> console.log(), Promise, setTimeout(),
 //? examples(variables) ==> __filename, __dirname
 
 // console.log("filename: " + __filename);
-//~ C:\Users\utkar\Desktop\Classes\Node 1000\NodeJS\Modules\Built-In\path.js ==> absolute path
+//~ C:Users\utkar\Desktop\Classes\Node 1000\NodeJS\Modules\Built-In\path.js ==> absolute path
 //? __filename returns the absolute path of the current working file
 
 console.log("=====================");
@@ -68,15 +68,18 @@ let myPath = {
 // console.log(path.format(myPath));
 
 //! 5) join()
-console.log(path.join("folder1", "folder2", "index.txt")); // foler1/folder2/index.txt
+// console.log(path.join("folder1", "folder2", "index.txt")); // folder1/folder2/index.txt
 
-console.log(path.join(__dirname, "Demo"));
+// console.log(path.join(__dirname, "Demo"));
 
-console.log(path.join(__dirname, "..", "..", "..", "JavaScript", "App"));
-console.log("../../../JavaScript/App");
+// console.log(path.join(__dirname, "..", "..", "..", "JavaScript", "App"));
+// C:\Users\utkar\Desktop\Classes\Node 1000\NodeJS\JavaScript\App
+// console.log("../../../JavaScript/App");
 
 let fs = require("fs");
-fs.rmdirSync(path.join(__dirname, "..", "..", "..", "JavaScript", "App"));
+// fs.rmdirSync("../../../JavaScript/App");
+// fs.rmdirSync(path.join(__dirname, "..", "..", "..", "JavaScript", "App"));
+// C:\Users\utkar\Desktop\Classes\Node 1000\JavaScript\App
 
 // console.log(path.join("folder1", "..", "index.txt"));
 

@@ -16,3 +16,5 @@
 
 //! require("path"); // commonJS syntax--> NodeJS uses this syntax by default
 //? react syntax ==> ES6 syntax (import, exports)
+
+console.log(__dirname);
