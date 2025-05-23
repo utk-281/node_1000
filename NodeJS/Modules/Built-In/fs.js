@@ -78,6 +78,11 @@ console.log("end");
 // fs.mkdirSync("../../Starter/server");
 // console.log("folder created");
 
+// let path = require("path");
+// let fs1 = require("fs");
+// fs.mkdirSync('../../Starter/Demo');
+// fs.mkdirSync(path.join(__dirname, "..", "..", "Starter", "Demo"));
+
 //~ 6) ===== deleting a folder/directory =====
 // method name ==> rmdirSync() (remove directory)
 // syntax ==> rmdirSync("path of the folder to be deleted")
@@ -404,25 +409,24 @@ const fs = require("fs");
 // //? source.pipe(destination)
 // read.pipe(write);
 
-// let { Duplex } = require("stream");
+let { Duplex } = require("stream");
 
-// let newDuplex = new Duplex({
-//   write(chunk, encoding, callback) {
-//     console.log(chunk, encoding);
-//     callback();
-//   },
-//   read() {
-//     this.push("hello", "utf-8");
-//     this.push("world", "utf-8");
-//     this.push("!", "utf-8");
-//     this.push("!", "utf-8");
-//     this.push(null);
-//   },
-// });
+let newDuplex = new Duplex({
+  write(chunk, encoding, callback) {
+    console.log(chunk, encoding);
+    callback();
+  },
+  read() {
+    this.push("hello", "utf-8");
+    this.push("world", "utf-8");
+    this.push("!", "utf-8");
+    this.push("!", "utf-8");
+    this.push(null);
+  },
+});
 
-// newDuplex.pipe(process.stdout);
-
-// newDuplex.write("hello", "utf-8");
-// newDuplex.write("world", "utf-8");
-// newDuplex.write("!", "utf-8");
-// newDuplex.write("!", "utf-8");
+newDuplex.write("hello", "utf-8");
+newDuplex.write("world", "utf-8");
+newDuplex.write("!", "utf-8");
+newDuplex.write("!", "utf-8");
+newDuplex.pipe(process.stdout);

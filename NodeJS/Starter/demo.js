@@ -20,3 +20,5 @@ console.log("hello");
 //? MVC architecture
 //? REST (RESTful) API and CRUD
 //? Project ==> (food deliver, e-comm)
+
+//! in nodeJS the global variable name is "global"
