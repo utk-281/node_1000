@@ -1,0 +1,7 @@
+* {
+  margin: auto;
+  padding: 0;
+  box-sizing: border-box;
+  background-origin: padding-box;
+  border-radius: 10px;
+}
