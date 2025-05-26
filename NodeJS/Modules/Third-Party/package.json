@@ -1,0 +1,15 @@
+{
+  "name": "third-party",
+  "version": "1.0.0",
+  "main": "mongodb.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "mongodb": "^6.16.0"
+  }
+}

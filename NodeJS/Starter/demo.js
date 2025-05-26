@@ -7,7 +7,7 @@ console.log("hello");
 //& check the folder in which the executable file is present and open the terminal with the folder name as the last part of the path
 
 //! topics to be covered in NodeJS
-//? Modules ==> built-in(4), user-defined, third-party(10)
+//? Modules ==> built-in(4 --> path, fs, os, http, (queryString, qs)), user-defined, third-party(10)
 //? connecting database(mongodb) with nodejs
 //? event-loop
 //? LIBUV

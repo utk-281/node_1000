@@ -17,7 +17,7 @@
 
 const http = require("http");
 const fs = require("fs");
-const { resolve } = require("dns/promises");
+
 // console.log(http);
 // console.log(http.METHODS);
 // console.log(http.STATUS_CODES);
@@ -90,44 +90,112 @@ write("message")
 // ==> html : text/html
 // ==> css : text/css
 // ==> js : application/js
-// ==> json : application/json
+// ==> json : application/json ==> it is language independent
 
-let server = http.createServer((req, res) => {
-  //! ================== sending html contents to the client ==================
-  // res.writeHead(200, { "Content-Type": "text/html" });
-  // res.end("<h1>hello world</h1>");
-  // res.write(`<h1>hello world</h1>`);
-  // res.end();
-  //? ================================================
-  // let htmlContents = fs.readFileSync("./Pages/index.html", "utf-8");
-  // res.write(htmlContents);
-  // res.end();
-  //? ================================================
-  // res.writeHead(200, { "Content-Type": "text/html" });
-  // let readInChunks = fs.createReadStream("./Pages/index.html", "utf-8"); // source
-  // // destination ==> res
-  // readInChunks.pipe(res); // pipe() is internally calling end()
+// let server = http.createServer((req, res) => {
+//! ================== sending html contents to the client ==================
+// res.writeHead(200, { "Content-Type": "text/html" });
+// res.end("<h1>hello world</h1>");
+// res.write(`<h1>hello world</h1>`);
+// res.end();
+//? ================================================
+// let htmlContents = fs.readFileSync("./Pages/index.html", "utf-8");
+// res.write(htmlContents);
+// res.end();
+//? ================================================
+// res.writeHead(200, { "Content-Type": "text/html" });
+// let readInChunks = fs.createReadStream("./Pages/index.html", "utf-8"); // source
+// // destination ==> res
+// readInChunks.pipe(res); // pipe() is internally calling end()
+//! ================== sending css contents to the client ==================
+// res.writeHead(200, { "Content-Type": "text/css" });
+// fs.createReadStream("./Pages/styles.css", "utf-8").pipe(res);
+//! ================== sending json data to the client ==================
+// res.writeHead(200, { "Content-Type": "application/json" });
+// let jsonData = fs.createReadStream("./Pages/data.json", "utf-8");
+// jsonData.pipe(res);
+//! ================== sending js object to the client ==================
+// res.writeHead(200, { "Content-Type": "application/json" });
+// let object = {
+//   name: "abc",
+//   age: 23,
+//   id: 123,
+// };
+// res.end(JSON.stringify(object));
+// });
 
-  //! ================== sending css contents to the client ==================
-  // res.writeHead(200, { "Content-Type": "text/css" });
-  // fs.createReadStream("./Pages/styles.css", "utf-8").pipe(res);
+// server.listen(9000, (err) => {
+//   if (err) console.log(err);
+//   console.log("server running at port 9000");
+// });
 
-  //! ================== sending json data to the client ==================
-  res.writeHead(200, { "Content-Type": "application/json" });
-  let jsonData = fs.createReadStream("./Pages/data.json", "utf-8");
-  jsonData.pipe(res);
+// let x = https://nodejs.org/en
+//! nodeJS website url home page ==> https://nodejs.org/en ==> "/" ==> this is the default endpoint for home/landing page
+//! about page ==> https://nodejs.org/en/about ==> "/about"
+//! download page ==> https://nodejs.org/en/download ==> "/download"
+//! docs page ==> https://nodejs.org/docs/latest/api/ ==> "/docs/latest/api/"
 
-  //! ================== sending js object to the client ==================
-  // res.writeHead(200, { "Content-Type": "application/json" });
-  // let object = {
-  //   name: "abc",
-  //   age: 23,
-  //   id: 123,
-  // };
-  // res.end(JSON.stringify(object));
-});
+// https://www.wikipedia.org/
+// https://en.wikipedia.org/wiki/Main_Page
 
-server.listen(9000, (err) => {
-  if (err) console.log(err);
-  console.log("server running at port 9000");
-});
+//? these are called as endpoints
+
+//? handling user's multiple endpoint requests is called as routing
+
+// http
+//   .createServer((req, res) => {
+//     console.log(req.url);
+//     let endPoint = req.url;
+//     //! displaying html page
+//     if (endPoint === "/html") {
+//       res.end("html page");
+//     }
+//     //! displaying css page
+//     else if (endPoint === "/css") {
+//       res.end("css page");
+//     }
+//     //! displaying json data
+//     else if (endPoint === "/json") {
+//       res.end("json data");
+//     }
+//     //! page not found
+//     else {
+//       res.end("page not found");
+//     }
+//   })
+//   .listen(9000, (err) => {
+//     if (err) console.log(err);
+//     console.log("server running at port 9000");
+//   });
+
+//! create a dummy nodeJS website using routing
+
+http
+  .createServer((req, res) => {
+    let endPoint = req.url;
+    //! if endpoint is "/" ==> home page
+    if (endPoint === "/") {
+      res.writeHead(200, { "Content-Type": "text/html" });
+      // console.log(res._header);
+      fs.createReadStream("./Pages/index.html", "utf-8").pipe(res);
+    }
+    //! if endpoint is "/about" ==> about page
+    else if (endPoint === "/about") {
+      res.writeHead(200, { "Content-Type": "text/html" });
+      fs.createReadStream("./Pages/about.html", "utf-8").pipe(res);
+    }
+    //! if endpoint is "/download" ==> download page
+    else if (endPoint === "/download") {
+      res.writeHead(200, { "Content-Type": "text/html" });
+      fs.createReadStream("./Pages/download.html", "utf-8").pipe(res);
+    }
+    //! page not found
+    else {
+      res.writeHead(404, { "Content-Type": "text/html" });
+      res.end("<h1>page not found</h1>");
+    }
+  })
+  .listen(9000, (err) => {
+    if (err) console.log(err);
+    console.log(`server running at http://localhost:9000`);
+  });
