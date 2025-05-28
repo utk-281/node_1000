@@ -11,6 +11,7 @@
   "description": "",
   "dependencies": {
     "mongodb": "^6.16.0",
+    "multer": "^2.0.0",
     "third-party": "file:"
   }
 }

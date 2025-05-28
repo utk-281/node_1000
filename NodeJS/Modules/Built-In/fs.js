@@ -146,13 +146,13 @@ function createStructure() {
 // syntax ==> writeFile("path/file-name", "data", callback)
 
 //& libUV ==> async operations --> libUV
-// console.log("Start");
-// fs.writeFile("./data.txt", "this is different data", function (err) {
-//   if (err) console.log(err);
-//   console.log("file created");
-// });
-// console.log("middle");
-// console.log("end");
+console.log("Start");
+fs.writeFile("./data.txt", "this is different data", function (err) {
+  if (err) console.log(err);
+  console.log("file created");
+});
+console.log("middle");
+console.log("end");
 //? error first callback ==> pass the error as first parameter to handle any error occurred
 //& if the file is already present then it will be overwritten otherwise a new file will be created
 
