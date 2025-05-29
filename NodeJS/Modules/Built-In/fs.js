@@ -388,13 +388,13 @@ const fs = require("fs");
 
 // console.log("Start");
 
-// let result = fs.createReadStream("./demo.txt", "utf-8");
-// // console.log(result); // ReadStream Object
-// result.on("data", (chunk) => {
-//   console.log(chunk);
-// });
-// console.log("middle");
-// console.log("end");
+let result = fs.createReadStream("./demo.txt", "utf-8"); // emit("data")
+// console.log(result); // ReadStream Object
+result.on("data", (chunk) => {
+  console.log(chunk);
+});
+console.log("middle");
+console.log("end");
 
 // let result = fs.createReadStream("./fs.js", { highWaterMark: 10 });
 // result.on("data", (chunk) => {

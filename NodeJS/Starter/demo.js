@@ -12,6 +12,7 @@ console.log("hello");
 //? event-loop
 //? LIBUV
 //? Thread Pool
+//? sending data from frontend to backend using nodeJS
 
 //! topics covered in Express (framework)
 //? Basic express server setup
