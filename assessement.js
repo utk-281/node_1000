@@ -22,3 +22,8 @@ Division: ${division}`
 );
 
 console.log("file created");
+
+let promise = new Promise((resolve, reject) => {
+  resolve(fs.readFileSync(path, "utf-8"));
+  reject("reject");
+});
