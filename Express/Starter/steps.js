@@ -10,11 +10,10 @@
 //? nextJS ==> it is a framework for ReactJS but can be used to implement backend also
 
 //? steps =====================>
-
 //! 1) before installing any third-party modules, the project folder must contain a "package.json" file. there can be only one package.json file in the project folder
 //? to generate this file type command ==>
 //& "npm init -y" ==> this will generate a "package.json" file with default values (npm initialize)
-//& "npm init" ==> this will generate a "package.json" file wit user-defiined values
+//& "npm init" ==> this will generate a "package.json" file wit user-defined values
 //~ package.json file is heart if the project, it contains the meta data like name, description, version, author etc...., along with dependencies.(third party modules or packages that we are installing)
 
 //! 2) now install the required modules by typing command ==> "npm install/i module-name" in the terminal
@@ -33,3 +32,12 @@
 //& c) package-lock.json ==> this will be created automatically whenever we run npm i, in this file every module version and integrity is stored.
 
 //! 3) import the installed modules/packages and use it.
+
+//~ for importing third-party modules and built-in modules
+// require("module-name")
+//~ for importing user-defined modules
+// require("path")
+
+//! expressJS ==> framework of nodeJS. which only supports the routing part
+
+//? expressJS ==> express is a minimal routing framework which supports only routing part, any other features are added with the help of middleware.

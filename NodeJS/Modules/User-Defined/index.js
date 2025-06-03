@@ -8,6 +8,7 @@
 //& let/const variableName = require("path of the file")
 
 let payload = require("./app");
+// payload();
 // console.log(payload.arrowFunction());
 // console.log(payload.printName);
 // console.log(payload.obj);

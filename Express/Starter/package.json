@@ -13,8 +13,10 @@
   "author": "utk",
   "license": "ISC",
   "dependencies": {
+    "colors": "^1.4.0",
     "express": "^5.1.0",
-    "introduction": "file:"
+    "introduction": "file:",
+    "multer": "^2.0.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
