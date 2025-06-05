@@ -35,3 +35,12 @@ app.listen(9001, (err) => {
 });
 
 //! middlewares ==> it is a function. which comes in between req and res and has access to both req and res objects and it also has a next() which calls the next middleware present if not it continues the normal flow of execution
+
+//? middleware is used with the help of use().
+
+//~ different types of middlewares
+//~ 1) custom/user-defined middlewares
+//~ 2) built-in middlewares
+//~ 3) error middlewares
+//~ 4) router level middlewares
+//~ 5) application level middlewares

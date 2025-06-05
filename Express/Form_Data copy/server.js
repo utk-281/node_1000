@@ -2,6 +2,8 @@ const express = require("express");
 const fs = require("fs");
 const mongodb = require("mongodb");
 
+let myRoutes = require("./routes");
+
 //! create a db connection method
 let connectDB = async () => {
   //! create a connection
@@ -17,20 +19,19 @@ let connectDB = async () => {
 const app = express();
 
 //! middleware
-app.use(express.urlencoded({ extended: true })); //TODO
+app.use("/abc", myRoutes);
+// "/abc" ==> api versioning/ static path
+app.use(express.urlencoded({ extended: true })); // ==> use qs module : parsing data html form data
+// app.use(function(req, res, next){
+// statements ===> req.body modify
+//  next()
+// })
 
-//! home page
-app.get("/", (req, res) => {
-  res.send("Landing page!!!");
-});
-
-//! form page
-app.get("/form", (req, res) => {
-  // res.send("form page!!!!");
-  // fs.createReadStream("./form.html", "utf-8").pipe(res);
-  let readData = fs.createReadStream("./form.html", "utf-8"); // source
-  // destination => res ; source.pipe(destination)
-  readData.pipe(res);
+//! fetching data from database
+app.get("/users", async (req, res) => {
+  let myCollection = await connectDB();
+  let users = await myCollection.find().toArray(); //cursor or pointer
+  res.send(users);
 });
 
 //! handling form submission
@@ -75,15 +76,3 @@ app.listen(9000, (err) => {
 // nodemon filename
 
 // npm i nodemon -global
-
-function add() {
-  // stattemets
-  return 2 + 3;
-}
-
-function print() {
-  let res = 5;
-  console.log(res);
-}
-
-print();

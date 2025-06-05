@@ -4,7 +4,7 @@
 //! frameworks ==> it is a collection of libraries.
 //? ==> it provides a structure for developing any application.
 //? ==> the control of the execution of the code is given to the framework.
-//? ==> it also allows developers to follow a particular architecture.
+//? ==> it also allows developers to follow a particular architecture. ==> MVC (model, view, controller)
 //~ examples ==> NODE (expressJS, meteorJS, derbyJS, koaJS) ,
 //~ example for frontend ==> angularJS, vue etc...
 //? nextJS ==> it is a framework for ReactJS but can be used to implement backend also
