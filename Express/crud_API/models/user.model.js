@@ -12,17 +12,21 @@ let userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
+      required: [true, "name is required"],
     },
     email: {
       type: String,
-      //   unique: true,
-      //   required: true,
+      unique: true,
+      required: true,
+      trim: true,
+      lowercase: true,
     },
     contactNo: {
       type: Number,
     },
     password: {
       type: String,
+      minlength: 5,
     },
   },
   //! options object

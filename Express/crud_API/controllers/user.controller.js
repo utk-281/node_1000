@@ -3,42 +3,105 @@ const userCollection = require("../models/user.model");
 
 const createUser = async (req, res) => {
   //? data is stored in req.body
-  let { name, email, contactNo, password } = req.body;
-  let newUser = await userCollection.create({ name, email, contactNo, password });
-  //   let newUser = await userCollection.create(req.body);
-  res.json({
-    success: true,
-    message: "user created successfully",
-    data: newUser,
-  });
+  try {
+    let { name, email, contactNo, password } = req.body;
+
+    let newUser = await userCollection.create({ name, email, contactNo, password });
+    //   let newUser = await userCollection.create(req.body);
+    res.status(200).json({
+      success: true,
+      message: "user created successfully",
+      data: newUser,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "something went wrong",
+      error: error,
+      errMsg: error.message,
+    });
+  }
 };
 
 const fetchAllUsers = async (req, res) => {
-  let users = await userCollection.find();
-  res.json({
-    success: true,
-    message: "users fetched successfully",
-    data: users,
-  });
+  try {
+    let users = await userCollection.find();
+
+    if (users.length === 0) {
+      return res.status(200).json({
+        success: true,
+        message: "no users found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "users fetched successfully",
+      data: users,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "something went wrong while fetching all users",
+      errorObj: error,
+      errMsg: error.message,
+    });
+  }
 };
 
 const fetchOneUser = async (req, res) => {
-  console.log(req.params); // { id: '6847cb2a944cbf2cdd86cd86' }
-  // { a: '6847cb2a944cbf2cdd86cd86', b: 'myName' }
+  console.log(req.params); // {id:value}
+  // let id = req.params.id
   let { id } = req.params;
+  console.log(id);
+
   let user = await userCollection.findOne({ _id: id });
-  res.json({
+  res.status(200).json({
     success: true,
     message: "user fetched successfully",
-    data: user,
+    user,
   });
 };
 
-const updateOneUser = async (req, res) => {};
+const updateOneUser = async (req, res) => {
+  //! the new Data
+  let { name, email, contactNo, password } = req.body;
+  let { id } = req.params;
 
-const deleteOneUser = async (req, res) => {};
+  await userCollection.updateOne(
+    { _id: id }, //? filter part
+    {
+      $set: {
+        //? updation part
+        name,
+        email,
+        contactNo,
+        password,
+      },
+    }
+  );
+  res.status(200).json({
+    success: true,
+    message: "user updated",
+  });
+};
 
-const deleteMultipleUsers = async (req, res) => {};
+const deleteOneUser = async (req, res) => {
+  let { id } = req.params;
+  await userCollection.deleteOne({ _id: id });
+  res.status(200).json({
+    success: true,
+    message: "user deleted",
+  });
+};
+
+const deleteMultipleUsers = async (req, res) => {
+  await userCollection.deleteMany();
+  res.status(200).json({
+    success: true,
+    message: "all users deleted",
+  });
+};
 
 module.exports = {
   createUser,
