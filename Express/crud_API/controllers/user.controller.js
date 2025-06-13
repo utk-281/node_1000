@@ -50,22 +50,34 @@ const fetchAllUsers = async (req, res) => {
 };
 
 const fetchOneUser = async (req, res) => {
-  console.log(req.params); // {id:value}
-  // let id = req.params.id
-  let { id } = req.params;
-  console.log(id);
-
-  let user = await userCollection.findOne({ _id: id });
-  res.status(200).json({
-    success: true,
-    message: "user fetched successfully",
-    user,
-  });
+  try {
+    let { id } = req.params;
+    let user = await userCollection.findOne({ _id: id });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "user not found",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: "user fetched successfully",
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "something went wrong while fetching one user",
+      errorObj: error,
+      errMsg: error.message,
+    });
+  }
 };
 
 const updateOneUser = async (req, res) => {
   //! the new Data
   let { name, email, contactNo, password } = req.body;
+  console.log(email, password, contactNo, name);
   let { id } = req.params;
 
   await userCollection.updateOne(

@@ -41,3 +41,6 @@ let myCollection = mongoose.model("User", userSchema); // singular and first let
 
 //? 4)
 module.exports = myCollection;
+
+//! blog application ===> user(name, email, password, contact, numberOfBlogs)/blog(title, content, createdBy, reviews, comments, likes) ==> register/login (blog--> create, update, delete, fetch, fetchOne)
+//! admin ==> all access

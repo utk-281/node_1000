@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
+const { MONGODB_URL } = require(".");
 
 const connectDB = async () => {
-  await mongoose.connect("mongodb://127.0.0.1:27017/crud_api");
+  await mongoose.connect(MONGODB_URL);
   console.log("DB connected");
 };
 
