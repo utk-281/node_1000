@@ -1,30 +1,31 @@
 const userCollection = require("../models/user.model");
+// const bcryptjs = require("bcryptjs");
+const asyncHandler = require("express-async-handler");
 
-const registerUser = async (req, res) => {
-  try {
-    let { name, email, password } = req.body;
-    let newUser = await userCollection.create({
-      name,
-      email,
-      password,
-    });
-    res.status(201).json({
-      success: true,
-      message: "user registered successfully",
-      data: newUser,
-    });
-  } catch (error) {
-    res.send(error);
-  }
-};
+const registerUser = asyncHandler(async (req, res) => {
+  let { name, email, password } = req.body;
+  // let salt = await bcryptjs.genSalt(10);
+  // let hashedPassword = await bcryptjs.hash(password, salt);
+  let newUser = await userCollection.create({
+    name,
+    email,
+    // password: hashedPassword,
+    password,
+  });
+  res.status(201).json({
+    success: true,
+    message: "user registered successfully",
+    data: newUser,
+  });
+});
 
-const loginUser = async (req, res) => {};
+const loginUser = asyncHandler(async (req, res) => {});
 
-const logoutUser = async (req, res) => {};
+const logoutUser = asyncHandler(async (req, res) => {});
 
-const updateUserDetails = async (req, res) => {};
+const updateUserDetails = asyncHandler(async (req, res) => {});
 
-const deleteUserProfile = async (req, res) => {};
+const deleteUserProfile = asyncHandler(async (req, res) => {});
 
 module.exports = {
   registerUser,
