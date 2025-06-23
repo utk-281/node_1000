@@ -2,6 +2,7 @@ const userCollection = require("../models/user.model");
 // const bcryptjs = require("bcryptjs");
 const asyncHandler = require("express-async-handler");
 const generateJWTToken = require("../utils/jwt.utils");
+const ErrorHandler = require("../utils/errorHandler.utils");
 
 const registerUser = asyncHandler(async (req, res) => {
   let { name, email, password } = req.body;
@@ -29,11 +30,7 @@ const loginUser = asyncHandler(async (req, res) => {
   let { email, password } = req.body;
   let user = await userCollection.findOne({ email });
   // user = {_id:, password:}
-  if (!user)
-    return res.status(404).json({
-      success: false,
-      message: "email is not registered",
-    });
+  if (!user) throw new ErrorHandler("invalid credentials", 404);
 
   let isMatch = await user.comparePassword(password);
   if (!isMatch)
@@ -43,15 +40,28 @@ const loginUser = asyncHandler(async (req, res) => {
     });
 
   let token = generateJWTToken(user._id);
-  console.log(token);
-
+  // console.log(token);
+  res.cookie("myCookie", token, {
+    maxAge: 1 * 60 * 60 * 1000, //! maxAge in milliseconds
+    httpOnly: true, //! cookies will not be accessible from frontend or in browser
+    // sameSite,
+    // secure: true, //? these three will be used with frontend
+    // path:
+  });
   res.status(200).json({
     success: true,
     message: "user logged in successfully",
+    token,
   });
 });
 
-const logoutUser = asyncHandler(async (req, res) => {});
+const logoutUser = asyncHandler(async (req, res) => {
+  res.clearCookie("myCookie");
+  res.status(200).json({
+    success: true,
+    message: "user logged out successfully",
+  });
+});
 
 const updateUserDetails = asyncHandler(async (req, res) => {});
 
@@ -74,3 +84,14 @@ error --> {message, statusCode}
 
 {"email is required", 400}
 } */
+
+/*
+  ~ res.cookie("cookie-name", value, {options})
+  res = {
+  ..
+  ..
+  ..
+   cookies:{ myCookie:value  }
+  }
+
+  */

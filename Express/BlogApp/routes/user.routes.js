@@ -11,7 +11,7 @@ const router = Router();
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
-router.get("/logout", logoutUser);
+router.post("/logout", logoutUser);
 router.patch("/update-profile", updateUserDetails);
 router.delete("/delete-profile", deleteUserProfile);
 
