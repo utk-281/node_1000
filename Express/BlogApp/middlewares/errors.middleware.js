@@ -1,5 +1,3 @@
-const { statusCode } = require("../utils/errorHandler.utils");
-
 const error = (err, req, res, next) => {
   if (err.name === "ValidationError") {
     err.statusCode = 400;
@@ -17,10 +15,6 @@ const error = (err, req, res, next) => {
     errorObject: err,
   });
 };
-
-{
-  message, statusCode;
-}
 
 module.exports = error;
 

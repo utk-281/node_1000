@@ -30,7 +30,7 @@ const loginUser = asyncHandler(async (req, res) => {
   let { email, password } = req.body;
   let user = await userCollection.findOne({ email });
   // user = {_id:, password:}
-  if (!user) throw new ErrorHandler("invalid credentials", 404);
+  if (!user) throw new ErrorHandler("user not found", 404);
 
   let isMatch = await user.comparePassword(password);
   if (!isMatch)
