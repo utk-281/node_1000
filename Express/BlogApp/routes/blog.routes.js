@@ -4,6 +4,6 @@ const { authenticate } = require("../middlewares/auth.middleware");
 
 const router = Router();
 
-router.post("/add", authenticate, addBlog);
+router.post("/add", authenticate, addBlog); // injected authenticate middleware
 
 module.exports = router;

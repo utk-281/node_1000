@@ -2,12 +2,17 @@ const blogCollection = require("../models/blog.model");
 const asyncHandler = require("express-async-handler");
 
 const addBlog = asyncHandler(async (req, res) => {
-  let { title, content, createdBy } = req.body;
+  // console.log(req.headers["user-agent"]);
+  // console.log(req.connection.remoteAddress);
+  //? this will be used to secure the cookie
+  console.log(req.headers["sec-ch-ua-platform"]);
+  let userId = req.user._id;
+  let { title, content } = req.body;
 
   let newBlog = await blogCollection.create({
     title,
     content,
-    createdBy,
+    createdBy: userId,
   });
 
   res.status(201).json({
