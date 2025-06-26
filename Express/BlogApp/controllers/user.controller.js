@@ -30,7 +30,7 @@ const loginUser = asyncHandler(async (req, res) => {
   let { email, password } = req.body;
   let user = await userCollection.findOne({ email });
   // user = {_id:, password:}
-  if (!user) throw new ErrorHandler("user not found", 404);
+  if (!user) throw new ErrorHandler("user not found", 404); // implicitly next()
 
   let isMatch = await user.comparePassword(password);
   if (!isMatch)
@@ -67,12 +67,23 @@ const updateUserDetails = asyncHandler(async (req, res) => {});
 
 const deleteUserProfile = asyncHandler(async (req, res) => {});
 
+//! for frontend
+const isLoggedIn = asyncHandler(async (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "user is logged in",
+  });
+});
+
+// http://loacalhost:9000/v1/users/is-logdedIn
+
 module.exports = {
   registerUser,
   loginUser,
   logoutUser,
   updateUserDetails,
   deleteUserProfile,
+  isLoggedIn,
 };
 
 /* // function(){

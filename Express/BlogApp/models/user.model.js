@@ -22,12 +22,10 @@ const userSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    blogs: [
-      {
-        blogID: ObjectId,
-        // ref: "Blog", //TODO:
-      },
-    ],
+    blogs: {
+      type: Array,
+      default: [],
+    },
   },
   { timestamps: true } //createdAt and updatedAt
 );
