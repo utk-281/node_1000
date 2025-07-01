@@ -17,6 +17,7 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
+      // select: false, //? this will hide the password from the response
     },
     totalBlogs: {
       type: Number,
@@ -25,6 +26,7 @@ const userSchema = new mongoose.Schema(
     blogs: {
       type: Array,
       default: [],
+      ref: "Blog",
     },
   },
   { timestamps: true } //createdAt and updatedAt
@@ -35,11 +37,12 @@ const userSchema = new mongoose.Schema(
 //~ 1) a random string is generated (salt)
 //~ 2) salt is hashed with password (hp)
 //~ 3) this (hp) is stored in db
-userSchema.pre("save", async function () {
-  /* missing */
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) next(); // if the password is not modified, then don't do anything
   let salt = await bcryptjs.genSalt(10);
   let hashedPassword = await bcryptjs.hash(this.password, salt);
   this.password = hashedPassword;
+  next();
 });
 
 //~ compare password (user-defined method)

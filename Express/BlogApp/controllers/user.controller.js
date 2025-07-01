@@ -1,4 +1,5 @@
 const userCollection = require("../models/user.model");
+const blogCollection = require("../models/blog.model");
 // const bcryptjs = require("bcryptjs");
 const asyncHandler = require("express-async-handler");
 const generateJWTToken = require("../utils/jwt.utils");
@@ -30,14 +31,10 @@ const loginUser = asyncHandler(async (req, res) => {
   let { email, password } = req.body;
   let user = await userCollection.findOne({ email });
   // user = {_id:, password:}
-  if (!user) throw new ErrorHandler("user not found", 404); // implicitly next()
+  if (!user) throw new ErrorHandler("invalid credentials", 404); // implicitly next()
 
   let isMatch = await user.comparePassword(password);
-  if (!isMatch)
-    return res.status(400).json({
-      success: false,
-      message: "invalid credentials",
-    });
+  if (!isMatch) throw new ErrorHandler("invalid credentials", 404);
 
   let token = generateJWTToken(user._id);
   // console.log(token);
@@ -63,19 +60,73 @@ const logoutUser = asyncHandler(async (req, res) => {
   });
 });
 
-const updateUserDetails = asyncHandler(async (req, res) => {});
+const updateUserDetails = asyncHandler(async (req, res, next) => {
+  let currentUserId = req?.user?._id;
+  let { name, email } = req.body;
+  let updatedUser = await userCollection.findByIdAndUpdate(
+    currentUserId,
+    { name, email },
+    { new: true, runValidators: true }
+  );
+  if (!updatedUser) return next(new ErrorHandler("user not found", 404));
+  res.status(200).json({
+    success: true,
+    message: "user details updated successfully",
+    updatedUser,
+  });
+});
 
-const deleteUserProfile = asyncHandler(async (req, res) => {});
+const updateUserPassword = asyncHandler(async (req, res, next) => {
+  let currentUserId = req.user._id;
+  let user = await userCollection.findById(currentUserId);
+
+  let { newPassword, confirmNewPassword, oldPassword } = req.body;
+
+  let isMatch = await user.comparePassword(oldPassword);
+  if (!isMatch) return next(new ErrorHandler("invalid credentials", 404));
+
+  if (newPassword !== confirmNewPassword)
+    return next(new ErrorHandler("passwords do not match", 404));
+
+  user.password = confirmNewPassword; // assigned the new data to the document
+  let result = user.save(); // saving the assigned data, this save() will call pre('save') hook.
+  console.log(result);
+  res.status(200).json({
+    success: true,
+    message: "user password updated successfully",
+  });
+});
+
+const deleteUserProfile = asyncHandler(async (req, res, next) => {
+  let currentUserId = req?.user?._id;
+  let deletedUser = await userCollection.findByIdAndDelete(currentUserId);
+  if (!deletedUser) return next(new ErrorHandler("user not found", 404));
+  await blogCollection.deleteMany({ createdBy: currentUserId });
+  res.status(200).json({
+    success: true,
+    message: "user profile deleted successfully",
+  });
+});
+
+const getUserProfile = asyncHandler(async (req, res, next) => {
+  let userId = req.params.id;
+  let user = await userCollection.findById(userId).select("-password").populate("blogs");
+  if (!user) return next(new ErrorHandler("user not found", 404));
+  res.status(200).json({
+    success: true,
+    message: "user profile fetched successfully",
+    user,
+  });
+});
 
 //! for frontend
 const isLoggedIn = asyncHandler(async (req, res) => {
   res.status(200).json({
     success: true,
     message: "user is logged in",
+    data: req.user,
   });
 });
-
-// http://loacalhost:9000/v1/users/is-logdedIn
 
 module.exports = {
   registerUser,
@@ -84,6 +135,8 @@ module.exports = {
   updateUserDetails,
   deleteUserProfile,
   isLoggedIn,
+  getUserProfile,
+  updateUserPassword,
 };
 
 /* // function(){
@@ -104,5 +157,18 @@ error --> {message, statusCode}
   ..
    cookies:{ myCookie:value  }
   }
+
+req {
+  ..
+  ..
+  ..
+  user:{
+      ..
+      ..
+      ..
+      _id:
+    }
+}
+
 
   */

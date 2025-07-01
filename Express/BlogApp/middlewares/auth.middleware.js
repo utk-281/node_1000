@@ -4,7 +4,7 @@ const userCollection = require("../models/user.model");
 
 const authenticate = async (req, res, next) => {
   // console.log(req.cookies);
-  let cookies = req.cookies.myCookie;
+  let cookies = req?.cookies?.myCookie;
   if (!cookies) {
     throw new ErrorHandler("please login to access this resource", 401);
   }
@@ -12,15 +12,15 @@ const authenticate = async (req, res, next) => {
   let decodedToken = jwt.verify(cookies, process.env.JWT_SECRET_KEY);
   // console.log(decodedToken);
   // { id: '685b885f97b0b2f1e04e8166', iat: 1750829179, exp: 1750915579 }
-  let decodedTokenId = decodedToken.id;
+  let decodedTokenId = decodedToken?.id;
   //! find the user
   let myUser = await userCollection.findById(decodedTokenId);
+  if (!myUser) return next(new ErrorHandler("Token Expired, please log in again", 401));
   // console.log(myUser);
   //! modifying req object
   req.user = myUser;
   next();
 };
-//! token-reusing
 
 module.exports = {
   authenticate,

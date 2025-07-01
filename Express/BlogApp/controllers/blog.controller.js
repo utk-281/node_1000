@@ -2,8 +2,6 @@ const blogCollection = require("../models/blog.model");
 const userCollection = require("../models/user.model");
 const asyncHandler = require("express-async-handler");
 const ErrorHandler = require("../utils/errorHandler.utils");
-const mongoose = require("mongoose");
-const { ObjectId } = mongoose.Schema.Types;
 
 const addBlog = asyncHandler(async (req, res) => {
   let userId = req.user._id;
@@ -47,8 +45,7 @@ const fetchAllBlogs = asyncHandler(async (req, res, next) => {
 
 const fetchOneBlog = asyncHandler(async (req, res, next) => {
   // let blog = await blogCollection.findOne({ _id: req.params.id });
-  let blog = await blogCollection.findById(req.params.id);
-
+  let blog = await blogCollection.findById(req.params.id).populate("createdBy");
   if (!blog) return next(new ErrorHandler("blog not found", 404));
   // if (!blog) throw new ErrorHandler("blog not found", 404)
 
@@ -88,32 +85,23 @@ const updateBlog = asyncHandler(async (req, res, next) => {
 
 const deleteBlog = asyncHandler(async (req, res, next) => {
   let currentUserId = req.user._id;
-  let blogId = req.params.id; // (_id===blogId, createdBy===currentUserId)
+  let blogId = req.params.id;
+  // blogId = 686222d366a2a1504eca982d
 
   let blog = await blogCollection.findOne({ _id: blogId, createdBy: currentUserId });
+  // blog._id = ObjectId("686222d366a2a1504eca982d")
   if (!blog) return next(new ErrorHandler("blog not found", 404));
 
-  // let deletedBlog = await blogCollection.deleteOne({ _id: blogId, createdBy: currentUserId });
-  // //? update the totalBlogs of the user
-  // await userCollection.findByIdAndUpdate(req.user._id, { $inc: { totalBlogs: -1 } });
-  //? update the blogs array of the user
-  // await userCollection.findByIdAndUpdate(req.user._id, { $pull: { blogs: ObjectId(blogId) } });
-
-  let myUser = req.user;
-
-  console.log(myUser.blogs);
-
-  let updatedArray = myUser.blogs.filter((id) => {
-    return new mongoose.Types.ObjectId(blogId).equals(id);
+  let deletedBlog = await blogCollection.findByIdAndDelete(blog._id);
+  await userCollection.findByIdAndUpdate(currentUserId, {
+    $pull: { blogs: blog._id },
+    $inc: { totalBlogs: -1 },
   });
-
-  console.log(updatedArray);
-  console.log(myUser.blogs);
 
   res.status(200).json({
     success: true,
     message: "blog deleted successfully",
-    blog,
+    deletedBlog,
   });
 });
 
@@ -124,13 +112,3 @@ module.exports = {
   updateBlog,
   deleteBlog,
 };
-
-// db.emp.aggregation([
-//   {
-//     $group: {
-//       _id: "$job",
-//       count: { $sum: 1 },
-//       eName: { $push: "$empName" },
-//     },
-//   },
-// ]);
